@@ -16,6 +16,44 @@ StartMongo();
 const PORT = process.env.PORT || 5000;
 app.use(cors({ credentials: true, origin: "*" }));
 app.use(bodyParser.json());
+
+const http = require('http')
+const socketIo= require('socket.io')
+
+
+
+
+
+
+let interval
+// socket io implementation
+const server = http.createServer(app)
+const io = socketIo(server)
+io.on("connection", (socket) => {
+  console.log("New client connected");
+  console.log('Total clients - ' , io.engine.clientsCount)
+  if (interval) {
+    clearInterval(interval);
+  }
+  //  interval = setInterval(() => getApiAndEmit(socket), 5000);
+        socket.on('getMessages', (body) =>{ 
+          console.log('New Order Recieved' , body)
+          socket.broadcast.emit('FromAPI' , body)
+                
+        });
+
+
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+    clearInterval(interval);
+  });
+});
+
+
+
+
+
+
 /* BACKEND API ENDPOINTS */
 
 app.use("/user", user);
@@ -36,6 +74,6 @@ app.use("/adminproduct", adminProduct);
 //   res.sendFile(path.join(__dirname + "/frontend/build/index.html"));
 // });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server started at PORT ${PORT}`);
 });
