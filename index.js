@@ -9,6 +9,8 @@ const cart = require("./routes/cart");
 const order = require("./routes/order");
 const adminOrder = require("./routes/adminOrder");
 const adminProduct = require("./routes/adminProduct");
+const sales = require("./routes/sales");
+
 const path = require("path");
 let me='Piyush'
 const StartMongo = require("./config/db");
@@ -67,6 +69,8 @@ app.use("/order", order);
 app.use("/adminorder", adminOrder);
 
 app.use("/adminproduct", adminProduct);
+
+app.use('/sales' ,sales)
 
 // /* FOR SERVING THE REACT APP: */
 // app.use(express.static(path.join(__dirname, "frontend/build")));

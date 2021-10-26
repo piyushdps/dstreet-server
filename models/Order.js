@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const moment = require("moment");
+
 const CartItem = require("./CartItem").model("cartitem").schema;
 const OrderSchema = mongoose.Schema({
   userId: {
@@ -21,11 +23,11 @@ const OrderSchema = mongoose.Schema({
   },
   delivery_time: {
     type: Date,
-    default: Date.now(),
+    default: moment(Date.now()).utcOffset(330).valueOf(),
   },
   est_delivery_time: {
     type: Date,
-    default: Date.now(),
+    default: moment(Date.now()).utcOffset(330).valueOf(),
   },
   cart: [CartItem],
   amount: {
@@ -34,7 +36,7 @@ const OrderSchema = mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now(),
+    default: moment(Date.now()).utcOffset(330).valueOf(),
   },
 });
 

@@ -168,7 +168,7 @@ router.post("/", auth, async (req, res) => {
         amount: amount,
         delivery_address: address,
         delivery_time: deliveryTime,
-        est_delivery_time: moment(deliveryTime).clone().add(30, "minutes"),
+        est_delivery_time: moment(deliveryTime).utcOffset(330).clone().add(30, "minutes"),
       });
       await order1.save().then(x=>{
         pusher.trigger("my-channel", "my-event", {
